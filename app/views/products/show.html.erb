@@ -1,19 +1,27 @@
-<p><%= link_to "Back", products_path %></p>
+<h1 class="text-2xl font-bold my-2"><%= @product.name %></h1>
+<p><%= link_to "Back", products_path, class: "btn-neutral btn btn-md" %></p>
 
-<section class="product">
+<section class="product my-2">
   <%= image_tag @product.featured_image if @product.featured_image.attached? %>
 
   <section class="product-info">
     <% cache @product do %>
-      <h1><%= @product.name %></h1>
-      <%= @product.description %>
+      <p class="my-2">
+        <%= @product.description %>
+      </p>
     <% end %>
 
-    <%= render "inventory", product: @product %>
+    <%= render "inventory", product: @product, class: "my-2" %>
 
     <% if authenticated? %>
-      <%= link_to "Edit", edit_product_path(@product) %>
-      <%= button_to "Delete", @product, method: :delete, data: { turbo_confirm: "Are you sure?" } %>
+      <div class="flex my-2">
+        <%= link_to "Edit", edit_product_path(@product),
+                    class: "btn btn-primary btn-md" %>
+
+        <%= button_to "Delete", @product, method: :delete,
+                      data: { turbo_confirm: "Are you sure?" },
+                      class: "btn btn-danger btn-md" %>
+      </div>
     <% end %>
   </section>
 </section>

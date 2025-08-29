@@ -1,0 +1,61 @@
+@import "tailwindcss";
+@layer components {
+    .btn {
+        @apply mx-1 inline-flex items-center justify-center font-medium rounded-lg transition-colors
+        focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed
+        cursor-pointer
+    }
+
+    .btn-primary {
+        @apply bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500;
+    }
+
+    .btn-secondary {
+        @apply bg-gray-600 text-white hover:bg-gray-700 focus:ring-gray-500;
+    }
+
+    .btn-success {
+        @apply bg-green-600 text-white hover:bg-green-700 focus:ring-green-500;
+    }
+
+    .btn-danger {
+        @apply bg-red-600 text-white hover:bg-red-700 focus:ring-red-500;
+    }
+
+    .btn-warning {
+        @apply bg-yellow-500 text-black hover:bg-yellow-600 focus:ring-yellow-400;
+    }
+
+    .btn-info {
+        @apply bg-cyan-600 text-white hover:bg-cyan-700 focus:ring-cyan-500;
+    }
+
+    .btn-neutral {
+        @apply bg-gray-200 text-gray-900 hover:bg-gray-300 focus:ring-gray-400;
+    }
+
+    .btn-sm {
+        @apply px-2 py-1 text-sm;
+    }
+
+    .btn-md {
+        @apply px-3 py-1 text-base;
+    }
+
+    .btn-lg {
+        @apply px-6 py-3 text-lg;
+    }
+
+    .form-label {
+        @apply block text-sm/6 font-medium text-gray-900
+
+    }
+
+    .form-input-container {
+        @apply mt-2 w-max flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 has-[input:focus-within]:outline-2 has-[input:focus-within]:-outline-offset-2 has-[input:focus-within]:outline-indigo-600
+    }
+
+    .form-input {
+        @apply block min-w-0 grow py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6
+    }
+}
