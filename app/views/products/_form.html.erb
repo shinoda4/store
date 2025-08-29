@@ -1,22 +1,27 @@
 <%= form_with model: @product do |form| %>
-  <div>
-    <%= form.label :name %>
-    <%= form.text_field :name %>
-  </div>
-  <div>
-    <%= form.label :featured_image, style: "display: block" %>
-    <%= form.file_field :featured_image, accept: "image/*" %>
-  </div>
-  <div>
-    <%= form.label :description, style: "display: block" %>
-    <%= form.rich_text_area :description %>
-  </div>
-  <div>
-    <%= form.label :inventory_count, style: "display: block" %>
-    <%= form.number_field :inventory_count %>
+  <div class="my-3">
+    <%= form.label :name, class: "form-label" %>
+    <div class="form-input-container">
+      <%= form.text_field :name, class: "form-input" %>
+    </div>
   </div>
 
-  <div>
-    <%= form.submit %>
+  <div class="my-3">
+    <%= form.label :featured_image, class: "form-label", style: "display: block" %>
+    <%= form.file_field :featured_image, accept: "image/*", class: "btn btn-md btn-primary" %>
+  </div>
+  <div class="my-3">
+    <%= form.label :description, class: "form-label", style: "display: block" %>
+    <%= form.rich_text_area :description %>
+  </div>
+  <div class="my-3">
+    <%= form.label :inventory_count, class: "form-label", style: "display: block" %>
+    <div class="form-input-container">
+      <%= form.number_field :inventory_count, class: "form-input" %>
+    </div>
+  </div>
+
+  <div class="my-3">
+    <%= form.submit "Update", class: "btn btn-md btn-primary" %>
   </div>
 <% end %>

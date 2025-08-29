@@ -1,11 +1,13 @@
 <% if product.inventory_count? %>
-  <p><%= product.inventory_count %> in stock</p>
+  <p><a class="font-bold"><%= product.inventory_count %></a> in stock</p>
 <% else %>
-  <p>Out of stock</p>
-  <p>Email me when available.</p>
+  <p class="py-2">Out of stock</p>
+  <p class="py-2">Email me when available.</p>
 
   <%= form_with model: [product, Subscriber.new] do |form| %>
-    <%= form.email_field :email, placeholder: "you@example.com", required: true %>
-    <%= form.submit "Submit" %>
+    <div class="form-input-container">
+      <%= form.email_field :email, placeholder: "you@example.com", required: true, class: "form-input" %>
+    </div>
+    <%= form.submit "Submit", class: "btn btn-md btn-primary my-2" %>
   <% end %>
 <% end %>
