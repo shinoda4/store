@@ -1,0 +1,67 @@
+<% if current_user.is_admin %>
+  <%= link_to "Back", subscriptions_path %>
+<% else %>
+  <%= link_to "Back", user_subscriptions_path(current_user) %>
+<% end %>
+
+<h1>Subscription</h1>
+
+<% cache @subscription do %>
+
+  <h2>Product Name:  <%= link_to @subscription.product.name, product_path(@subscription.product) %></h2>
+
+  <div>
+    <label>Quantity: </label>
+    <code>
+      <%= @subscription.quantity %>
+    </code>
+  </div>
+
+  <div>
+    <label>Status: </label>
+    <code>
+      <%= @subscription.status %>
+    </code>
+  </div>
+
+  <div>
+    <label>Created At: </label>
+    <code>
+      <%= @subscription.created_at %>
+    </code>
+  </div>
+
+  <div>
+    <label>Updated At: </label>
+    <code>
+      <%= @subscription.updated_at %>
+    </code>
+  </div>
+
+  <div>
+    <label>User email: </label>
+    <a>
+      <%= @subscription.user.email %>
+    </a>
+  </div>
+
+  <div>
+    <label>User phone: </label>
+    <a>
+      <%= @subscription.user.phone %>
+    </a>
+  </div>
+
+<% end %>
+
+<%# if user_signed_in? and current_user.is_admin %>
+<%#= link_to "Edit", edit_product_path(@product) %>
+<%# end %>
+<% if user_signed_in? and !current_user.is_admin %>
+
+  <% if @subscription.status == 'active' %>
+    <%= button_to "Unsubscribe", subscription_unsubscribe_path(@subscription), data: { turbo_confirm: "Are you sure?" } %>
+  <% elsif @subscription.status == 'cancelled' %>
+    <%= button_to "Resubscription", product_path(@subscription.product), method: :get %>
+  <% end %>
+<% end %>

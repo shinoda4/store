@@ -1,0 +1,14 @@
+<% if product.inventory_count.positive? %>
+
+  <% if user_signed_in? and !current_user.is_admin %>
+    <%#= form_with url: product_subscription_path(@product), method: :post do |f| %>
+      <%#= f.number_field :quantity, value: 1, min: 1 %>
+      <%#= f.submit "订购" %>
+    <%# end %>
+
+    <%= link_to "订购", new_subscription_path(product_id: @product.id) %>
+
+  <% end %>
+
+
+<% end %>

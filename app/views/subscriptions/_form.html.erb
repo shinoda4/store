@@ -1,0 +1,9 @@
+
+<%form_with model: subscription do |form|%>
+  <% if form.object.errors.any? %>
+    <p class="error"><%= form.object.errors.full_messages.first %></p>
+  <% end %>
+
+
+
+<% end %>
