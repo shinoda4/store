@@ -9,15 +9,18 @@ Rails.application.routes.draw do
   get "/home" => "application#home", as: :home
   resources :products do
     resources :subscribers, only: [:create]
-    post "/subscription", to: "subscriptions#create"
   end
   resource :unsubscribe, only: [:show]
-  resources :subscriptions, only: [:index, :show, :destroy, :new] do
+  resources :subscriptions, only: [:index, :show, :destroy, :create, :new] do
     post "/unsubscribe", to: "subscriptions#unsubscribe"
+    resources :shipments
   end
+
+  get "/shipments" => "shipments#all", as: :shipments
 
   resources :users do
     get "/subscriptions", to: "subscriptions#index_by_user"
+    get "/shipments", to: "shipments#index_by_user"
   end
 
   # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)

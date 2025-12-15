@@ -1,6 +1,6 @@
 class SubscribersController < ApplicationController
   before_action :set_product
-
+  before_action :authenticate_user!
   def create
     @product.subscribers.where(subscriber_params).first_or_create
     redirect_to @product, notice: "You are now subscribed."

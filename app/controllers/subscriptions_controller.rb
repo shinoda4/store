@@ -1,10 +1,9 @@
 class SubscriptionsController < ApplicationController
   before_action :require_admin, except: [:index_by_user, :new, :show, :create, :unsubscribe]
-  before_action :set_product, only: [:create]
   before_action :set_subscription, only: [:show, :destroy]
-
+  before_action :authenticate_user!
   def index
-    @subscriptions = Subscription.includes(:product, :user).all
+    @subscriptions = Subscription.includes(:product, :user).all.order(created_at: :desc)
 
     if params[:status].present? && Subscription.statuses.keys.include?(params[:status])
       @subscriptions = @subscriptions.where(status: params[:status])
@@ -19,21 +18,31 @@ class SubscriptionsController < ApplicationController
   end
 
   def show
+    @shipments = @subscription.shipments
   end
 
   def new
-    @subscription = Subscription.new
-    @product = Product.find(params[:product_id])
+    @subscription = Subscription.new(
+      product_id: params[:product_id]
+    )
+    @products = Product.order(:name)
   end
 
   def create
-    subscription = Subscriptions::CreateService.new(
+    @products = Product.all.order(:name)
+
+    product = Product.find(subscription_params[:product_id])
+
+    @subscription = Subscriptions::CreateService.new(
       user: current_user,
-      product: @product,
-      quantity: params[:quantity]
+      product: product,
+      quantity: subscription_params[:quantity]
     ).call
 
-    redirect_to product_path(subscription.product), notice: "订购成功"
+    redirect_to product_path(@subscription.product), notice: "订购成功"
+  rescue ActiveRecord::RecordInvalid => e
+    @subscription ||= current_user.subscriptions.build(subscription_params)
+    render :new
   end
 
   def unsubscribe
@@ -52,7 +61,7 @@ class SubscriptionsController < ApplicationController
 
   def index_by_user
     puts params[:user_id]
-    @subscriptions = Subscription.includes(:product, :user).where(user: current_user)
+    @subscriptions = Subscription.includes(:product, :user).where(user: current_user).order(created_at: :desc)
 
     if params[:status].present? && Subscription.statuses.keys.include?(params[:status])
       @subscriptions = @subscriptions.where(status: params[:status])
@@ -74,6 +83,10 @@ class SubscriptionsController < ApplicationController
 
   def set_subscription
     @subscription = Subscription.find(params[:id])
+  end
+
+  def subscription_params
+    params.require(:subscription).permit(:product_id, :quantity)
   end
 
 end

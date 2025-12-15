@@ -1,0 +1,40 @@
+<%= form_with model: [@subscription, shipment] do |form| %>
+
+  <p>
+    <%= form.label :tracking_number, "Tracking Number" %>
+    <%= form.text_field :tracking_number, placeholder: "Tracking Number" %>
+  </p>
+
+  <p>
+    <%= form.label :carrier, "Carrier" %>
+    <%= form.text_field :carrier, placeholder: "Carrier" %>
+  </p>
+
+  <p>
+    <%= form.label :status, "Status" %>
+    <%= form.select :status,
+                    Shipment.statuses.keys.map { |k|
+                      [
+                        {
+                          "pending" => "待发货",
+                          "shipped" => "已发货",
+                          "delivered" => "已签收"
+                        }[k],
+                        k
+                      ]
+                    },
+                    { prompt: "请选择状态" }
+    %>
+  </p>
+
+  <p>
+    <%= form.label :remark, "Remark" %>
+    <%= form.text_field :remark, placeholder: "Remark" %>
+  </p>
+
+  <p>
+    <%= form.submit "创建发货单" %>
+  </p>
+
+<% end %>
+

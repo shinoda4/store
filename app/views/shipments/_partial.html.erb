@@ -1,0 +1,58 @@
+
+<p>
+  <strong>Shipment ID:</strong>
+  <%= shipment.id %>
+</p>
+
+<p>
+  <strong>Subscription ID:</strong>
+  <%= shipment.subscription.id %>
+</p>
+
+<p>
+  <strong>User email:</strong>
+  <%= shipment.subscription.user.email %>
+</p>
+
+<p>
+  <strong>Product Name:</strong>
+  <%= shipment.subscription.product.name %>
+</p>
+
+<p>
+  <strong>Quantity:</strong>
+  <%= shipment.subscription.quantity %>
+</p>
+
+<p>
+  <strong>Tracking Number:</strong>
+  <%= shipment.tracking_number %>
+</p>
+
+<p>
+  <strong>Carrier:</strong>
+  <%= shipment.carrier %>
+</p>
+
+<p>
+  <strong>Shipped At:</strong>
+  <%= shipment.shipped_at ? shipment.shipped_at.strftime("%Y-%m-%d %H:%M") : "未发货" %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <%= shipment.status %>
+</p>
+
+<p>
+  <strong>Remark:</strong>
+  <%= shipment.remark.presence || "无" %>
+</p>
+
+<%= link_to "Detail", subscription_shipment_path(@subscription, shipment) %>
+
+<% if current_user&.is_admin %>
+  <%= link_to "Edit", edit_subscription_shipment_path(@subscription, shipment) %>
+<% end %>
+
+<hr/>

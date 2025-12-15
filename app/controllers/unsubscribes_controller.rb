@@ -1,6 +1,6 @@
 class UnsubscribesController < ApplicationController
   before_action :set_subscriber
-
+  before_action :authenticate_user!
   def show
     @subscriber&.destroy
     redirect_to root_path, notice: "Unsubscribed successfully."

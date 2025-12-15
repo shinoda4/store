@@ -1,9 +1,28 @@
-
-<%form_with model: subscription do |form|%>
+<%= form_with model: subscription do |form| %>
   <% if form.object.errors.any? %>
     <p class="error"><%= form.object.errors.full_messages.first %></p>
   <% end %>
 
+  <div>
+    <%= form.label :product_id %>
+    <%= form.select :product_id,
+                    options_from_collection_for_select(
+                      @products,
+                      :id,
+                      :name,
+                      subscription.product_id
+                    ),
+                    { include_blank: "搜索产品…" },
+                    { data: { controller: "tom-select" } } %>
 
+  </div>
 
+  <div>
+    <%= form.label :quantity %>
+    <%= form.number_field :quantity %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
 <% end %>

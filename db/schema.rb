@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_12_121310) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_13_120301) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.text "body"
     t.datetime "created_at", null: false
@@ -56,6 +56,18 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_12_121310) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "shipments", force: :cascade do |t|
+    t.string "carrier"
+    t.datetime "created_at", null: false
+    t.text "remark"
+    t.datetime "shipped_at"
+    t.integer "status"
+    t.integer "subscription_id", null: false
+    t.string "tracking_number"
+    t.datetime "updated_at", null: false
+    t.index ["subscription_id"], name: "index_shipments_on_subscription_id"
+  end
+
   create_table "subscribers", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "email"
@@ -66,7 +78,6 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_12_121310) do
 
   create_table "subscriptions", force: :cascade do |t|
     t.datetime "created_at", null: false
-    t.integer "interval_days"
     t.integer "product_id", null: false
     t.integer "quantity", default: 1, null: false
     t.integer "status", default: 0
@@ -92,5 +103,6 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_12_121310) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "shipments", "subscriptions"
   add_foreign_key "subscribers", "products"
 end

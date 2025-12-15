@@ -25,6 +25,7 @@
   <%# Includes all stylesheet files in app/assets/stylesheets %>
   <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
   <%= javascript_importmap_tags %>
+  <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
 </head>
 
 <body>
@@ -34,10 +35,14 @@
   <div>
     <%= link_to "Home", root_path %>
     <%= link_to "Products", products_path %>
-    <% if current_user.is_admin %>
-      <%= link_to "Subscriptions", subscriptions_path %>
-    <% else %>
-      <%= link_to "Subscriptions", user_subscriptions_path(current_user) %>
+    <% if current_user %>
+      <% if current_user.is_admin %>
+        <%= link_to "Subscriptions", subscriptions_path %>
+        <%= link_to "Shipments", shipments_path %>
+      <% else %>
+        <%= link_to "Subscriptions", user_subscriptions_path(current_user) %>
+        <%= link_to "Shipments", user_shipments_path(current_user) %>
+      <% end %>
     <% end %>
 
   </div>

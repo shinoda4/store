@@ -1,0 +1,71 @@
+
+<% if current_user.is_admin %>
+  <%= link_to "Back", shipments_path %>
+  <% else %>
+  <%= link_to "Back", user_shipments_path(current_user) %>
+<% end %>
+
+
+<h1>Shipment Detail</h1>
+
+<p>
+  <strong>Shipment ID:</strong>
+  <%= @shipment.id %>
+</p>
+
+<p>
+  <strong>Subscription ID:</strong>
+  <%= @subscription.id %>
+</p>
+
+<p>
+  <strong>User email:</strong>
+  <%= @subscription.user.email %>
+</p>
+
+<p>
+  <strong>Product Name:</strong>
+  <%= @subscription.product.name %>
+</p>
+
+<p>
+  <strong>Quantity:</strong>
+  <%= @subscription.quantity %>
+</p>
+
+<p>
+  <strong>Tracking Number:</strong>
+  <%= @shipment.tracking_number %>
+</p>
+
+<p>
+  <strong>Carrier:</strong>
+  <%= @shipment.carrier %>
+</p>
+
+<p>
+  <strong>Shipped At:</strong>
+  <%= @shipment.shipped_at ? @shipment.shipped_at.strftime("%Y-%m-%d %H:%M") : "未发货" %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <%= @shipment.status %>
+</p>
+
+<p>
+  <strong>Remark:</strong>
+  <%= @shipment.remark.presence || "无" %>
+</p>
+
+<% if user_signed_in? %>
+  <% if current_user.is_admin%>
+    <%= link_to "Edit", edit_subscription_shipment_path(@subscription, @shipment) %>
+  <% end %>
+<% end %>
+
+
+
+<!--<div>-->
+  <%#= link_to "Back", subscription_shipments_path(@subscription), class: "btn btn-secondary" %>
+<!--</div>-->

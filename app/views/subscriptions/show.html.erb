@@ -10,58 +10,53 @@
 
   <h2>Product Name:  <%= link_to @subscription.product.name, product_path(@subscription.product) %></h2>
 
-  <div>
-    <label>Quantity: </label>
-    <code>
-      <%= @subscription.quantity %>
-    </code>
-  </div>
-
-  <div>
-    <label>Status: </label>
-    <code>
-      <%= @subscription.status %>
-    </code>
-  </div>
-
-  <div>
-    <label>Created At: </label>
-    <code>
-      <%= @subscription.created_at %>
-    </code>
-  </div>
-
-  <div>
-    <label>Updated At: </label>
-    <code>
-      <%= @subscription.updated_at %>
-    </code>
-  </div>
-
-  <div>
-    <label>User email: </label>
-    <a>
-      <%= @subscription.user.email %>
-    </a>
-  </div>
-
-  <div>
-    <label>User phone: </label>
-    <a>
-      <%= @subscription.user.phone %>
-    </a>
-  </div>
+  <%= render "partial", subscription: @subscription %>
 
 <% end %>
 
-<%# if user_signed_in? and current_user.is_admin %>
-<%#= link_to "Edit", edit_product_path(@product) %>
-<%# end %>
-<% if user_signed_in? and !current_user.is_admin %>
 
+<% if user_signed_in? and current_user.is_admin %>
   <% if @subscription.status == 'active' %>
-    <%= button_to "Unsubscribe", subscription_unsubscribe_path(@subscription), data: { turbo_confirm: "Are you sure?" } %>
-  <% elsif @subscription.status == 'cancelled' %>
-    <%= button_to "Resubscription", product_path(@subscription.product), method: :get %>
+    <%= link_to "Add Shipment",
+                new_subscription_shipment_path(@subscription),
+                class: "btn btn-primary" %>
+    <%elsif @subscription.status == 'cancelled'%>
+
+    <p>
+      <%= link_to "Tel to customer", "tel:#{@subscription.user.phone}" %>
+    </p>
+
+    <%#= debug @subscription.user %>
+
+    <p>
+      <%= link_to "Email to customer", "mailto:#{@subscription.user.email}" %>
+    </p>
+
+  <% end %>
+<% end %>
+
+<div class="shipments">
+  <h2>Shipments for current subscription</h2>
+  <% if !@shipments.empty? %>
+    <% @shipments.each do |shipment| %>
+      <div>
+        <%= render "shipments/partial", shipment: shipment %>
+
+      </div>
+    <% end %>
+  <% else %>
+    <h3>
+      Ship coming soon...
+    </h3>
+  <% end %>
+</div>
+
+<% if user_signed_in? %>
+  <% unless current_user.is_admin %>
+    <% if @subscription.status == 'active' %>
+      <%= button_to "Unsubscribe", subscription_unsubscribe_path(@subscription), data: { turbo_confirm: "Are you sure?" } %>
+    <% elsif @subscription.status == 'cancelled' %>
+      <%= button_to "Resubscription", product_path(@subscription.product), method: :get %>
+    <% end %>
   <% end %>
 <% end %>

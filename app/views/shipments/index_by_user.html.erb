@@ -1,0 +1,9 @@
+<h1>My Shipments</h1>
+
+<div id="shipments">
+  <% @shipments.each do |shipment| %>
+    <div>
+      <%= link_to "##{shipment.subscription.id} - #{shipment.subscription.product.name} - ##{shipment.id}", subscription_shipment_path(shipment.subscription.id, shipment.id) %>
+    </div>
+  <% end %>
+</div>
